@@ -1,19 +1,15 @@
 package app.cartsvc.web.dto;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.UUID;
 
-@Getter
-@Setter
+@Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class CartItemRequest {
-    @NotNull
-    private UUID partId;
-
-    @NotNull
+    private UUID userId;
     private int quantity;
+    private UUID partId;
 }

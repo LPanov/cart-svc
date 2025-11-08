@@ -4,6 +4,7 @@ import app.cartsvc.cart.model.Cart;
 import app.cartsvc.cart.repository.CartRepository;
 import app.cartsvc.cartItem.service.CartItemService;
 import app.cartsvc.web.dto.CartItemRequest;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -31,15 +32,16 @@ public class CartService {
         cartRepository.save(cart);
     }
 
-    public void addToCart(CartItemRequest cartItemRequest, UUID userId) {
+    @Transactional
+    public void addToCart(CartItemRequest cartItemRequest) {
         UUID partId = cartItemRequest.getPartId();
-        Cart cart = getCartByUserId(userId);
+        Cart cart = getCartByUserId(cartItemRequest.getUserId());
 
         if (cart.getItems().stream().anyMatch(cartItem -> cartItem.getPartId().equals(partId))) {
-            cartItemService.updateQuantity(cartItemRequest, cart, partId);
+            cartItemService.updateQuantity(cartItemRequest, cart);
         }
         else {
-            cartItemService.createCartItem(partId, cartItemRequest.getQuantity(), cart);
+            cartItemService.createCartItem(cartItemRequest, cart);
         }
         updateCart(cart);
     }
