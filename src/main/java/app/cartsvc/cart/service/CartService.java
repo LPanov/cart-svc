@@ -21,7 +21,7 @@ public class CartService {
     }
 
     public Cart getCartByUserId(UUID userId) {
-        return cartRepository.getCartByUserId(userId);
+        return cartRepository.findCartByUserId(userId).orElseThrow(() -> new RuntimeException("Cart not found"));
     }
 
     public void createCart(UUID userId) {
