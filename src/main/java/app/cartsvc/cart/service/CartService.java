@@ -2,6 +2,7 @@ package app.cartsvc.cart.service;
 
 import app.cartsvc.cart.model.Cart;
 import app.cartsvc.cart.repository.CartRepository;
+import app.cartsvc.cartItem.model.CartItem;
 import app.cartsvc.cartItem.service.CartItemService;
 import app.cartsvc.web.dto.CartItemRequest;
 import jakarta.transaction.Transactional;
@@ -24,12 +25,14 @@ public class CartService {
         return cartRepository.findCartByUserId(userId).orElseThrow(() -> new RuntimeException("Cart not found"));
     }
 
-    public void createCart(UUID userId) {
+    public Cart createCart(UUID userId) {
         Cart cart = Cart.builder()
                 .userId(userId)
                 .build();
 
         cartRepository.save(cart);
+
+        return cart;
     }
 
     @Transactional
@@ -41,7 +44,8 @@ public class CartService {
             cartItemService.updateQuantity(cartItemRequest, cart);
         }
         else {
-            cartItemService.createCartItem(cartItemRequest, cart);
+            CartItem cartItem = cartItemService.createCartItem(cartItemRequest, cart);
+            cart.getItems().add(cartItem);
         }
         updateCart(cart);
     }

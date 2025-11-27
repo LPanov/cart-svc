@@ -24,12 +24,6 @@ public class CartController {
         this.cartService = cartService;
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<String> getHelloWorld(@RequestParam(name = "name") String name) {
-
-        return ResponseEntity.ok("Hello, " + name + " user!");
-    }
-
     @PostMapping
     public ResponseEntity<Void> createCart(@RequestParam(name = "userId") UUID userId) {
         cartService.createCart(userId);

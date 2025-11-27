@@ -23,10 +23,12 @@ public class CartItemService {
         this.cartItemRepository = cartItemRepository;
     }
 
-    public void createCartItem(CartItemRequest cartItemRequest, Cart cart) {
+    public CartItem createCartItem(CartItemRequest cartItemRequest, Cart cart) {
         CartItem cartItem = DtoMapper.getCartItem(cartItemRequest, cart);
 
         cartItemRepository.save(cartItem);
+
+        return cartItem;
     }
 
     public void updateQuantity(CartItemRequest cartItemRequest, Cart cart) {
