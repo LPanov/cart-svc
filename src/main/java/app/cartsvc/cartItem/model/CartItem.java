@@ -19,7 +19,7 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "part_id", unique = true, nullable = false)
+    @Column(name = "part_id", nullable = false)
     private UUID partId;
 
     private Integer quantity;
